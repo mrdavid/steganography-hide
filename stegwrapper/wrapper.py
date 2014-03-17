@@ -75,7 +75,6 @@ class wrapper(object):
     def set_color_value_to_bit(self, color_value, set_bit):
         return color_value - color_value % 2 + set_bit
 
-
     def read_one_byte(self):
         if (self.index < self.max_index) and not self.closed:
             integer_sum = 0
@@ -120,13 +119,16 @@ class wrapper(object):
         if self.index > self.max_index:
             self.index = self.max_index
 
+    def has_more_bytes(self):
+        return self.index < self.max_index
+
     # save the image
     def save(self, filename=''):
         if self.is_writable:
             self.image.putdata(self.data)
             if filename == '':
                 filename = self.name
-            self.image.save(filename.jpg, quality=100)
+            self.image.save(filename + ".png", quality=100)
         else:
             raise wrapper.trying_to_save_non_writeable_exception
 
@@ -156,9 +158,11 @@ class wrapper(object):
     def read(self, size=1):
         if self.closed:
             raise file_is_closed_exception
-        buffer = []
-        if self.index < self.max_index:
-            print "xx"
+        buffer_ = ""
+        while(self.has_more_bytes() and len(buffer_) < size):
+            buffer_ += self.read_one_byte()
+            self.advance()
+        return buffer_
 
         raise wrapper.unimplemented_exception
 
@@ -187,8 +191,16 @@ class wrapper(object):
     def truncate(self):
         raise wrapper.unimplemented_exception
 
-    def write(self):
-        raise wrapper.unimplemented_exception
+    def write(self, string):
+        if self.closed:
+            raise file_is_closed_exception
+        if not self.is_writable:
+            raise trying_to_save_non_writeable_exception
+
+        while self.has_more_bytes() and len(string) > 0:
+            self.write_one_byte(string[0])
+            string = string[1:]
+            self.advance()
 
     def writelines(self):
         raise wrapper.unimplemented_exception
