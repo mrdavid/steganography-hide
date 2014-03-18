@@ -164,8 +164,6 @@ class wrapper(object):
             self.advance()
         return buffer_
 
-        raise wrapper.unimplemented_exception
-
     def readline(self):
         raise wrapper.unimplemented_exception
 
