@@ -24,4 +24,4 @@ PNG file, use
 
     python sample2.py show path/to/source/image.jpg_out.png -f <filename>
 
-and the hidden file will be written to <filename>
+and the hidden file will be written to &lt;filename&gt;
