@@ -5,7 +5,7 @@ I am just playing around with ideas from steganography. Right now, all this does
 
 ### Hiding Text
 
-To use the sample and hide some text in a file type
+To use the sample and hide some text in a PNG image type
 
     python sample.py -f out hide path/to/source/image.jpg
 
@@ -15,7 +15,7 @@ To use the sample and hide some text in a file type
 
 ### Hiding files
 
-To use the sample and hide some text in a file type
+To use the sample and hide an arbitrary file in a PNG image type
 
     python sample2.py -f <file_to_hide> hide path/to/source/image.jpg
 
